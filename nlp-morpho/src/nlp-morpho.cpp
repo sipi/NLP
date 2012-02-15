@@ -31,6 +31,7 @@ using namespace boost;
 using namespace std;
 
 
+void printhelp(int exit_code);
 
 int 
 main(int argc, char** argv, char** arge)
@@ -39,9 +40,7 @@ main(int argc, char** argv, char** arge)
   // MANAGEMENT ARGUMENTS
   //********************************************************************
   
-  string form_src(argv[1]);
-  string form_dest(argv[2]);
-  
+  string form_src, form_dest;
   string str_lang("en_US");
   regex rx_lang("^LANG=(.*)\\..*$");
   
@@ -50,34 +49,46 @@ main(int argc, char** argv, char** arge)
     if(regex_match(arge[i], rx_lang))
       str_lang = regex_replace(string(arge[i++]), rx_lang, "\\1");
   
+  if(argc >= 3 && argv[1][0] != '-' && argv[2][0] != '-')
+    {
+      form_src = argv[1];
+      form_dest = argv[2];
+    }
   
   int opt;
   bool mode_verbose = false;
-  while( (opt = getopt( argc, argv, "bl:v" )) != -1 )
-  {
-    switch (opt)
+  while( (opt = getopt( argc, argv, "hl:v" )) != -1 )
     {
-      case 'b':
-        printf("b\n");
-        break;
-      case 'l':
-        str_lang = optarg;
-        break;
-      case 'v':
-        mode_verbose = true;
-        break;
-      default:
-        exit(EXIT_FAILURE);
+      switch (opt)
+        {
+          case 'h':
+            printhelp(EXIT_SUCCESS);
+            break;
+          case 'l':
+            str_lang = optarg;
+            break;
+          case 'v':
+            mode_verbose = true;
+            break;
+          default:
+            printhelp(EXIT_FAILURE);
+        }
     }
-  }
+    
+  if(form_src.empty())
+    {
+      printf("Error: to few arguments.\n");
+      printhelp(EXIT_FAILURE);
+    }
+
   
   string path_lang_file = string("./lang/")+str_lang+ string(".lang");
   
   if(mode_verbose)
-  {
-    printf("str_lang : %s\n", str_lang.c_str());
-    printf("%s\n",string("["+form_src+"/"+form_dest+"]").c_str());
-  }
+    {
+      printf("str_lang : %s\n", str_lang.c_str());
+      printf("%s\n",string("["+form_src+"/"+form_dest+"]").c_str());
+    }
     
   
   //********************************************************************
@@ -161,4 +172,14 @@ main(int argc, char** argv, char** arge)
   }
   
   exit(EXIT_SUCCESS);
+}
+
+void
+printhelp(int exit_code)
+{
+  printf("\
+Usage: nlp-morpho <form_src> <form_dest> [-v] [-l <code_lang>]\n\
+");
+
+  exit(exit_code);
 }
