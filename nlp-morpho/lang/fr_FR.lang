@@ -1,9 +1,7 @@
 
-ms to fp
-
 [s/p]
 
-^(.*)(al|ail)$ -> \1aux | \1s
+^(.*)(al|ail)$ -> \1aux | \1\2s
 ^(.*)(ou)$ -> \1oux | \1ous 
 ^(.*)(eu|au|eau|eou)$ -> \1\2x
 ^(.*[szx])$ -> \1
@@ -41,11 +39,11 @@ ms to fp
 ^(.*)e$ -> \1
 
 
-[adj/n]
+[adj/noun]
 
 ^(.*)in$ -> \1inesse
 
-[v/adj(to be able to)]
+[v/adj-ability]
 
 ^(.*)cer$ -> \1çable
 ^(.*)ger$ -> \1geable
@@ -53,7 +51,7 @@ ms to fp
 ^(.*)er$ -> \1able
 ^(.*)oir$ -> \1able | \1isible | \1oyable
 ^(.*)uir$ -> \1uyable  
-^(.*)ir$ -> \1able | issable  
+^(.*)ir$ -> \1able | \1issable  
 ^(.*)ïr$ -> \1ïssable
 ^(.*)oire$ -> \1uvable       
 ^(.*)uire$ -> \1uctible | \1uisable    
@@ -63,12 +61,12 @@ ms to fp
 ^(.*)ire$ -> \1isible 
 ^(.*)re$ -> \1able
 
-[v/agent_n]
+[v/agent-noun]
 
 ^(.*)er$ -> \1eur
 ^(.*)truire$ -> \1tructeur    #construire, instruire
 
-[v/action_n]
+[v/action-noun]
 
 ^(.*)er$ -> \1age | \1ement            
 ^(.*)quer$ -> \1cation | \1cage   
