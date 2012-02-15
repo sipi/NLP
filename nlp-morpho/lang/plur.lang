@@ -1,9 +1,0 @@
-
-[SingularToPlural]
-
-^(.*)(al|ail)$ -> \1aux | \1\2s
-^(.*)(ou)$ -> \1oux | \1ous
-^(.*)(eu|au|eau|eou)$ -> \1\2x
-^(.*[szx])$ -> \1
-^(.*)$ -> \1s
-
