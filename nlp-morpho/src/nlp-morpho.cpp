@@ -35,10 +35,12 @@ using namespace std;
 int 
 main(int argc, char** argv, char** arge)
 {
+  //********************************************************************
+  // MANAGEMENT ARGUMENTS
+  //********************************************************************
   
-  //********************************************************************
-  // GESTION DES OPTIONS
-  //********************************************************************
+  string form_src(argv[1]);
+  string form_dest(argv[2]);
   
   string str_lang("en_US");
   regex rx_lang("^LANG=(.*)\\..*$");
@@ -65,66 +67,84 @@ main(int argc, char** argv, char** arge)
         mode_verbose = true;
         break;
       default:
-        fprintf(stderr,"bad option\n", argv[0]);
         exit(EXIT_FAILURE);
     }
   }
   
+  string path_lang_file = string("./lang/")+str_lang+ string(".lang");
+  
   if(mode_verbose)
+  {
     printf("str_lang : %s\n", str_lang.c_str());
+    printf("%s\n",string("["+form_src+"/"+form_dest+"]").c_str());
+  }
     
-  str_lang = string("./lang/")+str_lang+ string(".lang");
   
   //********************************************************************
   // MAIN
   //********************************************************************
   
   //********************************************************************
-  // CHARGEMENT DES REGLES
+  // LOADING OF RULES
   
   FILE *fp = NULL;
   char* line = NULL;
   size_t len = 0;
-  string s;
+  string str;
   vector<Rule> rules;
+
+  regex rx_form(".*\\["+form_src+"/"+form_dest+"\\].*");
+  regex rx_header(".*\\[.*\\].*");
+  regex rx_rule("^.*->.*$");
   
-  fp = fopen(str_lang.c_str(), "r");
+  fp = fopen(path_lang_file.c_str(), "r");
   if(fp == NULL)
-    return -1;
+    exit(EXIT_FAILURE);
+
+  // search the good section
+  while(getline(&line, &len, fp) != -1)
+      if(regex_match(line, rx_form))
+        break;
   
- 
+  // parse rules
   while(getline(&line, &len, fp) != -1)
     {
-      regex rx_rule("^.*->.*$");
+      // cleaning line
       line[strlen(line) - 1] = ' '; //suppression du \n de fin de ligne
-      s = line; 
-      s = s.substr(0,s.find('#')); //suppression des commentaires
-
-      if(regex_match(s, rx_rule))
-      {
-        lstr::erase(s, ' '); 
-        rules.push_back(Rule(s));
-      }
+      str = line;
+      str = str.substr(0,str.find('#')); //suppression des commentaires
+      lstr::erase(str, ' '); 
+          
+      if(regex_match(str, rx_rule))
+        {
+          rules.push_back(Rule(str));
+          if(mode_verbose)
+            printf("%s\n", rules.back().str().c_str());
+        }
+      else if(regex_match(line, rx_header))
+        break;
     }
   
-  
+  free(line);
+  fclose(fp);
+    
   //********************************************************************
   // MAIN LOOP
   
   char cstring[256];
-  string str, new_str;
+  string new_str;
   
   while(scanf("%s", cstring) != EOF)
   {
-    str = cstring;
+    str= cstring;
     
     vector<Rule>::iterator it;
-    for( it = rules.begin(); it < rules.end(); it++ )
+    for( it= rules.begin(); it < rules.end(); it++ )
     {
       if( regex_match(str, it->lhs) )
       {
         vector<string>::iterator it_str;
-        for( it_str = it->rhs.begin(); it_str < it->rhs.end(); it_str++ )
+        for( it_str= it->rhs.begin(); it_str < it->rhs.end(); it_str++ )
         {
           new_str = regex_replace(str, it->lhs, *it_str);
           
@@ -133,12 +153,12 @@ main(int argc, char** argv, char** arge)
             printf(" (%s)", it->str().c_str());
             
           printf("\n");
-          
         }
+        
         break;
       }
     }
   }
   
-  return 0;
+  exit(EXIT_SUCCESS);
 }
