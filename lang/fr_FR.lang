@@ -1,0 +1,78 @@
+
+ms to fp
+
+[s/p]
+
+^(.*)(al|ail)$ -> \1aux | \1s
+^(.*)(ou)$ -> \1oux | \1ous 
+^(.*)(eu|au|eau|eou)$ -> \1\2x
+^(.*[szx])$ -> \1
+^(.*)$ -> \1s
+
+
+[m/f]
+
+^(.*)teurs$ -> \1trices
+^(.*)teur$ -> \1trice
+^(.*)eurs$ -> \1euses | \1eresses
+^(.*)eur$ -> \1euse | \1eresse
+^(.*)t$ -> \1te | \1tte
+^(.*)(on|en)$ -> \1\2ne
+^(.*)ais$ -> \1aise
+^(.*)f$ -> \1ve
+^(.*)er$ -> \1ère
+^(.*)eau$ -> \1elle
+^(.*)s$ -> \1sse
+^(.*)$ -> \1e
+
+[f/m]
+
+^(.*)trices$ -> \1teurs
+^(.*)trice$ -> \1teur
+^(.*)(euses|eresses)$ -> \1eurs
+^(.*)(euse|eresse)$ -> \1eur
+^(.*)(te|tte)$ -> \1t
+^(.*)(on|en)ne$ -> \1\2
+^(.*)aise$ -> \1ais
+^(.*)ve$ -> \1f
+^(.*)ère$ -> \1er
+^(.*)elle$ -> \1eau
+^(.*)sse$ -> \1s
+^(.*)e$ -> \1
+
+
+[adj/n]
+
+^(.*)in$ -> \1inesse
+
+[v/adj(to be able to)]
+
+^(.*)cer$ -> \1çable
+^(.*)ger$ -> \1geable
+^(.*)quer$ -> \1cable        
+^(.*)er$ -> \1able
+^(.*)oir$ -> \1able | \1isible | \1oyable
+^(.*)uir$ -> \1uyable  
+^(.*)ir$ -> \1able | issable  
+^(.*)ïr$ -> \1ïssable
+^(.*)oire$ -> \1uvable       
+^(.*)uire$ -> \1uctible | \1uisable    
+^(.*)scrire$ -> \1scriptible   
+^(.*)crire$ -> \1scriptible   
+^(.*)indre$ -> \1ignable   
+^(.*)ire$ -> \1isible 
+^(.*)re$ -> \1able
+
+[v/agent_n]
+
+^(.*)er$ -> \1eur
+^(.*)truire$ -> \1tructeur    #construire, instruire
+
+[v/action_n]
+
+^(.*)er$ -> \1age | \1ement            
+^(.*)quer$ -> \1cation | \1cage   
+^(.*)truire$ -> \1truction
+
+
+

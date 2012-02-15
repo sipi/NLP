@@ -1,0 +1,17 @@
+[Masc - Fem]
+
+^(.*)teur$ -> \1trice
+^(.*)eur$ -> \1euse | \1eresse
+^(.*)t$ -> \1te | \1tte
+^(.*)(on|en)$ -> \1\2ne
+^(.*)ais$ -> \1aise
+^(.*)f$ -> \1ve
+^(.*)er$ -> \1ère
+^(.*)eau$ -> \1elle
+^(.*)s$ -> \1sse
+^(.*)$ -> \1e
+
+
+
+
+
