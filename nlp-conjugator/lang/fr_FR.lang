@@ -1,0 +1,21 @@
+
+# i_p i_pac i_i i_pqp i_pas i_paa i_fs i_fa 
+# s_p s_pa s_i s_pqp
+# c_p c_pa1 c_pa2
+# imp_p imp_pa
+
+# 1PS : 1ère personne du singulier
+# 3PP : 3ème personne du pluriel
+
+# IPR : indicatif présent
+# IPC : indicatif passé composé
+# IIP
+# IPP
+# IPS 
+# IPA
+# IFS
+# IFA 
+
+
+^(.*)(er)$ -> [IPR_1PS]\1e | [IPR_2PS]\1es | [IPR_3PS]\1e | [IPR_1PP]\1ons | [IPR_2PP]\1ez | [IPR_3PP]\1ent
+^(.*)(er)$ -> [IPC_1PS]ai \1é | [IPC_2PS]as \1é | [IPC_3PS]a \1é | [IPC_1PP]avons \1é | [IPC_2PP]avez \1é | [IPC_3PP]ont \1é
